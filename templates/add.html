@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add a Show | TV Show Tracker{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h2 mb-4">Add a Show</h1>
+          <form method="post" action="/add">
+            <div class="mb-3">
+              <label class="form-label" for="title">Show title</label>
+              <input class="form-control" id="title" name="title" type="text" maxlength="200" required
+                     value="{{ form_data.get('title', '') }}">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="status">Status</label>
+              <select class="form-select" id="status" name="status" required>
+                <option value="">Choose a status</option>
+                {% for status in statuses %}
+                  <option value="{{ status }}" {% if form_data.get('status') == status %}selected{% endif %}>
+                    {{ status }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="next_release">Next release (optional)</label>
+              <input class="form-control" id="next_release" name="next_release" type="date"
+                     value="{{ form_data.get('next_release', '') }}">
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="rating">Rating (optional)</label>
+              <select class="form-select" id="rating" name="rating">
+                <option value="">No rating</option>
+                {% for rating in range(1, 6) %}
+                  <option value="{{ rating }}" {% if form_data.get('rating') == rating|string %}selected{% endif %}>
+                    {{ rating }} / 5
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Save Show</button>
+            <a class="btn btn-outline-secondary" href="/">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
